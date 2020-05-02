@@ -9,10 +9,6 @@ This project provides the total solution of STN, the most input is defined by di
 - PLEASE Don't upload weight files(large datas).
 ## Experiments
 - NoPerts STN_enforce
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
 
 | warper | classifer | glr/clr/wd | acc | options |
 |:---:|:---:|:---:|:---:|:---:|
