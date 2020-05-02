@@ -1,7 +1,9 @@
 # STN_master
 This project provides the total solution of STN, the most input is defined by dictionary input form.
 ## Caution
-- PlEASE!!! Don't delete any FILES!!! Checkout .gitignore and checkout custom files... possible but, it's hard to return past repository...
+- PlEASE Don't delete any FILES...!
+- PLEASE Checkout .gitignore and careful when push files...! 
+(possible but, it's hard to return past repository...)
 - PLEASE naming filenames clear and carefully.
 - PLEASE USE personal visdom port.
 - PLEASE Don't upload weight files(large datas).
