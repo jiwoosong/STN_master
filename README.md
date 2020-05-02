@@ -12,7 +12,9 @@ This project provides the total solution of STN, the most input is defined by di
 
 | warper | classifer | glr/clr/wd | acc | options |
 |:---:|:---:|:---:|:---:|:---:|
-|Bilinear|FCLayer|1e-5/1e-3/1e-4|0.0%||
+|`Bilinear`|`FCLayer`|1e-5/1e-3/1e-4|0.0%||
+|`Bilinear`|`FCLayer`|1e-4/1e-3/1e-4|0.0%||
+|`Bilinear`|`FCLayer`|1e-3/1e-3/1e-4|0.0%||
 
 ## Usage
 Create 'gpu0.py' in the project page 
