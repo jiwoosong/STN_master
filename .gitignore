@@ -1,4 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
-
-.gitignore 제거할 예정
+Results
+Ours_Laplacian
+Unet
+Unet_groupconv
