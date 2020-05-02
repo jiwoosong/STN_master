@@ -9,7 +9,7 @@ This project provides the total solution of STN, the most input is defined by di
 - PLEASE Don't upload weight files(large datas).
 ## Usage
 Create 'gpu0.py' in the project page 
-```C++
+``` Python
 import os
 import torch
 from TOTAL_Prepare import Prepare_Training2
@@ -21,9 +21,11 @@ W_in = 50
 H_in = 50
 W_warp = 50
 H_warp = 50
+
 from Networks.STN_enforce.STNenforce import STN
 from Networks.warper.Basic.Bilinear import Bilinear
 from Networks.classifier.FClayer import Classification_net
+
 warper = Bilinear(align_corners=True)
 geometric = STN(W_warp=W_warp, H_warp=H_warp, transformImage=warper)
 classifier = Classification_net(W_warp=W_warp, H_warp=H_warp, chanel=3)
