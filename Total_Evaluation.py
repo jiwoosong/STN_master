@@ -4,7 +4,7 @@ import jutils
 import TOTAL_Prepare
 
 def compare_test_name(input_dic):
-    vis = jutils.Visdom(name = input_dic['vis_name'],port=7097)
+    vis = jutils.Visdom(name = input_dic['vis_name'],port=8097)
     for stn_type in os.listdir(input_dic['test_name']):
         print(jutils.toMagenta('STN_Type        : '+ stn_type))
         test_loss_list = {}

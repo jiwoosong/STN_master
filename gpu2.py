@@ -3,19 +3,19 @@ from TOTAL_MAIN import training
 import os
 import torch
 os.environ["CUDA_DEIVCES_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 W_in = 50
 H_in = 50
 W_warp = 50
 H_warp = 50
 from Networks.STN_enforce.STNenforce import STN
 from Networks.warper.Basic.Bilinear import Bilinear
-from Networks.classifier.FClayer import Classification_net
+from Networks.classifier.Global_MP import Classification_net
 
 
 warper = Bilinear(align_corners=True)
 geometric = STN(W_warp=W_warp, H_warp=H_warp, transformImage=warper)
-classifier = Classification_net(W_warp=W_warp, H_warp=H_warp, chanel=3)
+classifier = Classification_net(in_chanel=3, out_chanel=43)
 prepare_input={}
 prepare_input['test_name'] = 'Results/TESTNoPert'
 prepare_input['vis_port'] = 8097
