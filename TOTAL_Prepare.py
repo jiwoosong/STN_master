@@ -112,7 +112,7 @@ def Prepare_Training2(input_dic):
     output_dic['test_best_err'] = test_best_err
 
     save_iter = []
-    prev = start_iter
+    prev = 0
     for it, period in output_dic['save_iter']:
         save_iter = save_iter + list(range(prev,it,period))
         prev = it
