@@ -64,6 +64,7 @@ geometric = STN(W_warp=W_warp, H_warp=H_warp, transformImage=warper)
 classifier = Classification_net(W_warp=W_warp, H_warp=H_warp, chanel=3)
 prepare_input={}
 prepare_input['test_name'] = 'Results/?'
+prepare_input['message'] = ''
 prepare_input['vis_port'] = ?
 prepare_input['geometric'] = geometric
 prepare_input['classifier'] = classifier
