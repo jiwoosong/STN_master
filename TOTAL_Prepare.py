@@ -21,7 +21,7 @@ def Prepare_Training2(input_dic):
     classifier = input_dic['classifier'].cuda()
 
     STN_Type = geometric.name.split('.')[0]
-    warp_class_Type = geometric.transformImage.name.split('.')[0] + '_' + classifier.name.split('.')[0]
+    warp_class_Type = geometric.transformImage.name.split('.')[0] + '_' + classifier.name.split('.')[0] + input_dic['message']
     Tuning_Type = input_dic['optimizer_name'] + '_g' + '%.0e'%(input_dic['glr']) + '_c' + '%.0e'%(input_dic['clr']) + '_wd' +  '%.0e'%(input_dic['wd'])
     print('# STN_Type                   : ' + jutils.toGreen(STN_Type))
     print('# warp_class_Type            : ' + jutils.toRed(warp_class_Type))
