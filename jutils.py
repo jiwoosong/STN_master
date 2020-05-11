@@ -180,6 +180,8 @@ def initial_checkpoint_size(state, save_fld):
     return data_size
 
 
+
+
 # def save_checkpoint(state, is_best, filename):
 #     if not os.path.exists('./save/'):
 #         os.mkdir('save')

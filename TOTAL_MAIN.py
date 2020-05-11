@@ -59,6 +59,8 @@ def training(input_dic, W_in, H_in):
     moving_average = 0.
     for epoch in range(total_epoch):
         for _, (img, classId, img_shape, x1y1x2y2) in enumerate(train_loader):
+            if (it + 1) >= input_dic['save_iter'][-1]:
+                break
             # Setting Image/Label
             it += 1
             image = img.cuda()
@@ -115,7 +117,6 @@ def training(input_dic, W_in, H_in):
 
             if (it+1) in input_dic['save_iter']:
                 # if (it+1) % input_dic['val_iter'] != 0:
-                print_func(input_dic, it, optim, True)
                 # if not (it + 1) % input_dic['val_iter'] == 0:
                 #     print_func(input_dic, it, optim,True)
                 jutils.save_checkpoint({
@@ -128,6 +129,11 @@ def training(input_dic, W_in, H_in):
                     'val_err_list': input_dic['val_err_list'],
                     'test_err_list': input_dic['test_err_list'],
                     'optimizer': optim.state_dict()}, save_fld=input_dic['project_path'], filename="weight",num=it+1)
+                print_func(input_dic, it, optim, True)
+
+        if (it + 1) >= input_dic['save_iter'][-1]:
+            print('Training Done')
+            break
 
 
 def evaluation(geometric, classifier, dataloader, batch_size):
