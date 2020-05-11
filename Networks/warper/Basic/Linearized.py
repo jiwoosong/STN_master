@@ -13,6 +13,6 @@ class Linearized(torch.nn.Module):
         # print(jutils.toCyan('Warping Module : Linearized'))
 
     def forward(self, image, pMtrx, W, H):
-        warped_image = linearized_transform(image, pMtrx, W=self.W, H=self.H, align_corners=self.align_corners)
+        warped_image = linearized_transform(image, pMtrx, W=W, H=H, align_corners=self.align_corners)
 
         return warped_image
