@@ -192,7 +192,7 @@ def print_func(input_dic,it,optim, save_flag):
               'VAL_err : {7}%({8}%)\t'
               'Test_err : {9}%({10}%)\t'
               'Save={11}'.format(
-            input_dic['max_iter'], it,
+            input_dic['max_iter'], it+1,
             jutils.toGreen("{0:.7f}".format(optim.param_groups[0]['lr'])),
             jutils.toGreen("{0:.7f}".format(optim.param_groups[1]['lr'])),
             jutils.toGreen('{0:.4f}'.format(input_dic['train_loss_list'][-1])),
