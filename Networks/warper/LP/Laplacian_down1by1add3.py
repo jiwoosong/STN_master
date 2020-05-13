@@ -11,15 +11,15 @@ class Laplacian(torch.nn.Module):
         level=3
         if level is not None:
             for i in range(level):
-                self.level_size.append((W_in,H_in))
+                self.level_size.append((W_in, H_in))
                 W_in = int(W_in / 2)
                 H_in = int(H_in / 2)
         # print(jutils.toCyan('-----------------------------------------'))
         # print(jutils.toCyan('Warping Module : Laplacian'))
         # print(jutils.toCyan('Level          : ' + str(self.level)))
         # print(jutils.toRed('Level_size     : ' + str(self.level_size)))
-        self.laplacian_add = Laplacian_add.Laplacian_transformation_downadd(self.level_size,align_corners)
+        self.laplacian_add1by1 = Laplacian_add.Laplacian_transformation_down1by1(self.level_size,align_corners)
 
     def forward(self, image, pMtrx, W, H):
-        warped_image = self.laplacian_add(image, pMtrx, W, H)
+        warped_image = self.laplacian_add1by1(image, pMtrx, W, H)
         return warped_image
