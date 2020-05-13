@@ -35,9 +35,10 @@ class ICSTN(torch.nn.Module):
         self.transformImage = transformImage
         self.initialize(model=self, stddev=1e-01, last0=True)
 
-    def forward(self, image, p):
+    def forward(self, image):
         imageWarpAll = [image]
         batchSize = image.shape[0]
+        p = torch.zeros((image.shape[0],6)).cuda()
         for l in range(4):
             pMtrx = self.vec2mtrx(p, 'affine')
             imageWarp = self.transformImage(image,pMtrx, W=self.W_warp, H=self.H_warp)
@@ -73,6 +74,12 @@ class ICSTN(torch.nn.Module):
             p1, p2, p3, p4, p5, p6 = torch.unbind(p, dim=1)
             pMtrx = torch.stack([torch.stack([I + p1, p2, p3], dim=-1),
                                  torch.stack([p4, I + p5, p6], dim=-1)], dim=1)
+        if warpType == "affine_3x3":
+            p1, p2, p3, p4, p5, p6 = torch.unbind(p, dim=1)
+            pMtrx = torch.stack([torch.stack([I + p1, p2, p3], dim=-1),
+                                 torch.stack([p4, I + p5, p6], dim=-1),
+                                 torch.stack([O, O, I], dim=-1)], dim=1)
+
         if warpType == "homography":
             p1, p2, p3, p4, p5, p6, p7, p8 = torch.unbind(p, dim=1)
             pMtrx = torch.stack([torch.stack([I + p1, p2, p3], dim=-1),
@@ -80,12 +87,27 @@ class ICSTN(torch.nn.Module):
                                  torch.stack([p7, p8, I], dim=-1)], dim=1)
         return pMtrx
     def compose(self, p, dp, mode):
-        pMtrx = self.vec2mtrx(p, mode)
-        dpMtrx = self.vec2mtrx(dp, mode)
+        if mode == "affine":
+            pMtrx = self.vec2mtrx(p, "affine_3x3")
+            dpMtrx = self.vec2mtrx(dp, "affine_3x3")
+        else :
+            pMtrx = self.vec2mtrx(p, mode)
+            dpMtrx = self.vec2mtrx(dp, mode)
         pMtrxNew = dpMtrx.matmul(pMtrx)
         pMtrxNew = pMtrxNew / pMtrxNew[:, 2:3, 2:3]
         pNew = self.mtrx2vec(pMtrxNew)
         return pNew
+    def mtrx2vec(self, pMtrx):
+        [row0, row1, row2] = torch.unbind(pMtrx, dim=1)
+        [e00, e01, e02] = torch.unbind(row0, dim=1)
+        [e10, e11, e12] = torch.unbind(row1, dim=1)
+        [e20, e21, e22] = torch.unbind(row2, dim=1)
+        p = torch.stack([e00 - 1, e01, e02, e10, e11 - 1, e12], dim=1)
+        # if opt.warpType == "translation": p = torch.stack([e02, e12], dim=1)
+        # if opt.warpType == "similarity": p = torch.stack([e00 - 1, e10, e02, e12], dim=1)
+        # if opt.warpType == "affine": p = torch.stack([e00 - 1, e01, e02, e10, e11 - 1, e12], dim=1)
+        # if opt.warpType == "homography": p = torch.stack([e00 - 1, e01, e02, e10, e11 - 1, e12, e20, e21], dim=1)
+        return p
 
     # initialize weights/biases
     def initialize(self, model, stddev, last0=False):
