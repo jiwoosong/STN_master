@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Laplacian_transformation_downadd(torch.nn.Module):
-    def __init__(self, level_size,align_corners):
+    def __init__(self, level_size, align_corners):
         super(Laplacian_transformation_downadd, self).__init__()
         self.pyramid_level = len(level_size)
         self.pyramid_level_size = level_size

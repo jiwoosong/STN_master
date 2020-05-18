@@ -8,9 +8,9 @@ class Bilinear(torch.nn.Module):
         super(Bilinear, self).__init__()
         self.name = os.path.realpath(__file__).split('/')[-1]
         self.level_size = []
-        self.align_corners =align_corners
+        self.bilienar_tranform =bilienar_tranform(align_corners)
 
     def forward(self, image, pMtrx, W, H):
-        warped_image = bilienar_tranform(image, pMtrx, W=W, H=H,align_corners=self.align_corners)
+        warped_image = self.bilienar_tranform(image, pMtrx, W, H)
 
         return warped_image

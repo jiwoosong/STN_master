@@ -94,7 +94,7 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
     if mode == 'linearized':
         return LinearizedMutilSampler.linearized_grid_sample(input, grid, padding_mode)
     else:
-        return torch.nn.functional.grid_sample(input, grid, mode, padding_mode)
+        return torch.nn.functional.grid_sample(input, grid, mode, padding_mode, align_corners=True)
 
 
 class LinearizedMutilSampler():
@@ -246,7 +246,7 @@ class LinearizedMutilSampler():
         grid = grid.detach()
         input = input.repeat_interleave(num_grid, 0)
         warped_input = torch.nn.functional.grid_sample(input, grid, mode='bilinear',
-                                                       padding_mode=padding_mode)
+                                                       padding_mode=padding_mode,align_corners=True)
         warped_input = warped_input.reshape(batch_size, num_grid, -1, height, width)
         return warped_input
 

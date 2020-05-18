@@ -28,13 +28,16 @@ def compare_test_name(input_dic):
             elif(input_dic['compare_option'] == 'best_tuning'):
                 test_loss_list.update({k: v for k, v in tuning_loss_list.items() if min(v) == min(tuning_best_loss.values())})
                 test_iter_list.update(tuning_iter_list)
-        win = None
+        win = 'Test_error'
+        win2 = 'Best_Test_error'
         for k, v in test_loss_list.items():
             win = vis.Eval_plot(k,stn_type,test_iter_list[k],v,win)
+        for k, v in test_loss_list.items():
+            win2 = vis.Eval_plot(k,stn_type,[0,1],[min(v),min(v)],win2)
 
 
 eval_option={}
 eval_option['test_name'] = 'Results/TESTNoPert'
 eval_option['vis_name'] = 'compare'
-eval_option['compare_option'] = 'all_tuning' # Option : 'all_tuning' / 'best_tuning'
+eval_option['compare_option'] = 'best_tuning' # Option : 'all_tuning' / 'best_tuning'
 compare_test_name(eval_option)

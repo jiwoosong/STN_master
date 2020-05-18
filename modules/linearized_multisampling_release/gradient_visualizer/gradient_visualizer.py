@@ -4,12 +4,13 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
-from utils import utils
-from warp import perturbation_helper, sampling_helper
-
+from modules.linearized_multisampling_release.utils import utils
+from modules.linearized_multisampling_release.warp import perturbation_helper, sampling_helper
+import cv2
 
 class GradientVisualizer(object):
     def __init__(self, opt):
+        self.num=0
         self.opt = opt
         self.warper = sampling_helper.DifferentiableImageSampler('bilinear', 'zeros')
 
@@ -49,10 +50,18 @@ class GradientVisualizer(object):
         down_sampled_orig_image = self.warper.warp_image(orig_image, ident_mat, self.opt.out_shape).detach()
         warped_image = image_warper.warp_image(orig_image, translation_mat, self.opt.out_shape)
         loss = criterion(warped_image, down_sampled_orig_image)
+        canvas = np.zeros((3,down_sampled_orig_image.shape[-2]+warped_image.shape[-2],down_sampled_orig_image.shape[-1]))
+        canvas[:,0:down_sampled_orig_image.shape[-2],:] = down_sampled_orig_image[0].cpu().detach().numpy()
+        canvas[:, down_sampled_orig_image.shape[-2]:down_sampled_orig_image.shape[-2]+warped_image.shape[-2], :] = warped_image[0].cpu().detach().numpy()
+
+        cv2.imwrite('Results_grad/'+str(self.num)+'.png',np.ceil(canvas.transpose((1,2,0))*255)[:,:,::-1])
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        self.num += 1
         return translation_vec
+    def bgr2rgb(self,image):
+        return
 
     def get_gradient_over_translation_vec(self, data_pack, image_warper):
         translation_vec = data_pack['translation_vec']
