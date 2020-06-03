@@ -8,9 +8,9 @@ class linearized_transform(torch.nn.Module):
         self.level_size = []
         self.align_corners = align_corners
 
-    def forward(self, image, pMtrx, W, H):
+    def forward(self, image, pMtrx, W_out, H_out):
         batch_size = pMtrx.shape[0]
-        grid = torch.affine_grid_generator(pMtrx, (batch_size, 3, W, H), align_corners=self.align_corners)
+        grid = torch.affine_grid_generator(pMtrx, (batch_size, 3, W_out, H_out), align_corners=self.align_corners)
         imageWarp = linearized.grid_sample(image, grid, mode="linearized")
 
         return imageWarp

@@ -42,7 +42,7 @@ class GradientVisualizer(object):
 
     def get_next_translation_vec(self, data_pack, image_warper):
         translation_vec = data_pack['translation_vec'].clone().detach().requires_grad_(True)
-        translation_mat = perturbation_helper.vec2mat_for_translation(translation_vec)
+        translation_mat = perturbation_helper.vec2mat_for_translation(-translation_vec)
         orig_image = data_pack['original_image']
         criterion = self.build_criterion()
         optimizer = self.build_gd_optimizer(params=translation_vec)

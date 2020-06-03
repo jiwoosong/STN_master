@@ -9,9 +9,9 @@ class Laplacian_transformation_downadd(torch.nn.Module):
         self.pyramid_level_size = level_size
         self.align_corners = align_corners
 
-    def forward(self, image, pMtrx, W, H):
+    def forward(self, image, pMtrx, W_out, H_out):
         LP_pyr = self.Laplacian_pyr(image)
-        imageWarp = self.GridCrop_batch_add(LP_pyr, pMtrx, W=W, H=H, align_corners=self.align_corners)
+        imageWarp = self.GridCrop_batch_add(LP_pyr, pMtrx, W_out, H_out, align_corners=self.align_corners)
         return imageWarp
 
     def Laplacian_pyr(self, image):
