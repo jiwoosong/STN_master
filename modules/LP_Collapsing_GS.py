@@ -2,9 +2,9 @@ import torch
 import numpy as np
 
 
-class Laplacian_one(torch.nn.Module):
+class LP_Collapsing_GS(torch.nn.Module):
     def __init__(self, pyramid_level, align_corners):
-        super(Laplacian_one, self).__init__()
+        super(LP_Collapsing_GS, self).__init__()
         self.pytramid_level = pyramid_level
         self.align_corners = align_corners
 
