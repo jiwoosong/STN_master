@@ -33,14 +33,17 @@ class Laplacian_transformation_downadd(torch.nn.Module):
 
     def GridCrop_batch_add(self, LP_pyr, pMtrx, W=None, H=None, align_corners=True):
         LP_level = []
+        grid_level = []
         batch_size = pMtrx.shape[0]
-        grid = torch.affine_grid_generator(pMtrx,(batch_size, 3, W, H), align_corners=align_corners)
+        for i in range(len(LP_pyr)):
+            grid = torch.affine_grid_generator(pMtrx,(batch_size, 3, W, H), align_corners=align_corners)
+            grid_level.append(grid)
 
         # sampling with bilinear interpolation
         # x, y, h, w = original_img.size()
         # Grid Sampling
-        for LP_level_img in LP_pyr:
-            imageWarp = torch.nn.functional.grid_sample(LP_level_img, grid, 'bilinear',align_corners=align_corners)
+        for i in range(len(LP_pyr)):
+            imageWarp = torch.nn.functional.grid_sample(LP_pyr[i], grid_level[i], 'bilinear',align_corners=align_corners)
             LP_level.append(imageWarp)
 
         # Collapse(Add)

@@ -28,11 +28,6 @@ class Laplacian_GPgrid(torch.nn.Module):
         # Gaussian Pyramid
         GP = []
         size = (batch_size,3) + pyr_size[-1]
-        grid = torch.affine_grid_generator(pMtrx, (
-        batch_size, 3, pyr_size[0][0], pyr_size[0][1]),
-                                           align_corners=align_corners)
-        imageWarp = torch.nn.functional.grid_sample(image, grid, 'bilinear', align_corners=align_corners)
-        GP.append(imageWarp)
         for i in range(self.pyramid_level - 1):
             grid = torch.affine_grid_generator(pMtrx, (batch_size, 3, pyr_size[i+1][0], pyr_size[i+1][1]), align_corners=align_corners)
             imageWarp = torch.nn.functional.grid_sample(image, grid, 'bilinear', align_corners=align_corners)
@@ -53,7 +48,6 @@ class Laplacian_GPgrid(torch.nn.Module):
         return LP
 
     def Collapse(self, LP_pyr, pyr_size, align_corners=True):
-        LP_level = []
         LP_pyr.reverse()
         pyr_size.reverse()
         out_img = LP_pyr[0]
