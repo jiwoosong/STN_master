@@ -51,10 +51,11 @@ out_shape = [128,128]
 
 #from modules.Laplacian_add_module import Laplacian_transformation_downadd
 #from modules.newLaplacian import newLaplacian
-from modules.Laplacian_Collasing_GS import Laplacian_one
+#from modules.Laplacian_Collasing_GS import Laplacian_one
 #from modules.Laplacian_two import Laplacian_two
 #from modules.Laplacian_thr import Laplacian_thr
-from modules.Laplacian_four import Laplacian_four
+#from modules.Laplacian_four import Laplacian_four
+from modules.LP_Collapsing_GS import LP_Collapsing_GS
 #from modules.newLaplacian_GPgrid import Laplacian_GPgrid
 # level=3
 # level_size=[]
@@ -100,7 +101,7 @@ opt.out_shape = [16,16]
 # gradient_visualizer_instance.draw_gradient_grid(cute_cat[None], ours_laplacian_add_sampler)
 # pass
 
-for level in range(1,4):
+for level in range(1,6):
 
     level_size = []
     W_in = cute_cat.shape[-2]
@@ -112,7 +113,7 @@ for level in range(1,4):
             level_size.append((W_in, H_in))
             W_in = int(W_in / 2)
             H_in = int(H_in / 2)
-    ours_laplacian_add_sampler = gradient_warper(Laplacian_one(pyramid_level=level, align_corners=True))
+    ours_laplacian_add_sampler = gradient_warper(LP_Collapsing_GS(pyramid_level=level, align_corners=True))
     #ours_laplacian_add_sampler = gradient_warper(newLaplacian(pyramid_level=level, align_corners=True))
     #ours_laplacian_add_sampler = gradient_warper(Laplacian_GPgrid(pyramid_level=level, align_corners=True))
     #ours_laplacian_add_sampler = gradient_warper(Laplacian_two(pyramid_level=level, align_corners=True))
